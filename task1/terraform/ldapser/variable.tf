@@ -1,12 +1,9 @@
-variable "prefix_projet" {
-    description = " prefix for the project"
-    default         = "epam-mentor-s-us1"
-}
+variable "prefix_projet" {}
 
-variable "keyName" {
-  default  = "North-America-Virginia"
-}
+variable "keyName" {}
 
-variable "ami" {
-  default  =      "ami-0903e6ebabe59d793" #Custom image ldapserver
-}
+variable "ami_ldap" {}
+variable "private_subnet_id"{}
+variable "private_sgr"{}
+
+variable  "tags" {}

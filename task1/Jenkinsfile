@@ -1,0 +1,37 @@
+node {
+    stage('Checkout') {
+        // Get some code from a GitHub repository
+        checkout scm
+    }
+    stage('Validate') {
+        parallel 'ldapserver': {
+                    stage ('Validate_ldapserver') {
+                        sh "packer validate task1/packer/ldapser/ldapserver_packer.json"
+                    }     
+                },
+                'bastion': {
+                    stage ('Validate_bastion') {
+                        sh "packer validate task1/packer/bastion/bastion_packer.json"
+                    }     
+                }
+    }
+    stage('Build_AMIs') {
+        parallel 'ldapserver': {    
+                    stage('Build_AMI_ldapserver') {
+                        withCredentials([usernamePassword(credentialsId: 'aws_access_keys', usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY')]) {
+                        // Run the packer build
+                            sh "packer build task1/packer/ldapser/ldapserver_packer.json"
+                    }
+                },
+                'bastion': {
+                    stage('Build_AMI_Bastion') {
+                        withCredentials([usernamePassword(credentialsId: 'aws_access_keys', usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY')]) {
+                        // Run the packer build
+                            sh "packer build task1/packer/bastion/bastion_packer.json"
+                    }
+                }
+    }
+    stage('Store Artifacts') {
+        archiveArtifacts 'manifest.json'
+    }
+}

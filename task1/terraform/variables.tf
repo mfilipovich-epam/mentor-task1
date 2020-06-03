@@ -1,17 +1,20 @@
-variable "region" {
-  default  = "us-east-1"
-}
-variable "inst_type" {
-  default  = "t2.micro"
-}
+variable "region" {}
 
-variable "keyName" {
-  type = map
-  default ={
-    "us-east-1" = "North-America-Virginia"
-  } 
-}
+variable "keyName" {}
 
-variable "owner" {
-       default = "mfilipovich"
-}
+variable  "tags" {}
+
+variable "ami_ldap" {}
+
+variable "ami_bst" {}
+
+variable "ami_nat" {}
+variable "prefix_projet" {}
+
+variable "vpc_cidr" {}
+variable "azs" {}
+
+variable "cidr_block_private" {}
+variable "cidr_block_public" {}
+
+variable "access_list" {}

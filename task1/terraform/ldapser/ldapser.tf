@@ -1,8 +1,5 @@
-variable "private_subnet_id"{}
-variable "private_sgr"{}
-
 resource "aws_instance" "ldapser" {
-    ami = var.ami
+    ami = var.ami_ldap
     availability_zone = "us-east-1b"
     instance_type = "t2.micro"
     key_name = var.keyName
@@ -11,12 +8,9 @@ resource "aws_instance" "ldapser" {
     private_ip = "10.0.40.100"
     source_dest_check = false
 
-
-    tags = {
-        Owner       = "mfilipovich"
-        Name        = "${var.prefix_projet}-ldp"
-        Role        = "ldapserver"
-    }
+    tags = merge(var.tags,
+            map("Name", format("${var.prefix_projet}-ldp"), "Role", "ldapserver")
+    )
 
     lifecycle {
       create_before_destroy = true

@@ -1,7 +1,3 @@
-variable "public_subnet_ids"{type = set(string)}
-variable "public_sgr"{}
-
-
 resource "aws_autoscaling_group" "bastion-asg" {
     name                      = "${var.prefix_projet}-bst"
     vpc_zone_identifier       = var.public_subnet_ids
@@ -13,16 +9,23 @@ resource "aws_autoscaling_group" "bastion-asg" {
     desired_capacity          = 1
     force_delete              = true
     launch_configuration      = aws_launch_configuration.bastion.name
-    tag {
+    tags = [
+    {
+      key                 = "Owner"
+      value               = "mfilipovich"
+      propagate_at_launch = true
+    },
+    {
       key                 = "Name"
       value               = "${var.prefix_projet}-bst"
       propagate_at_launch = true
-    }
-    tag {
+    },
+    {
       key                 = "Role"
       value               = "bastion"
       propagate_at_launch = true
     }
+    ]
     lifecycle {
       create_before_destroy = true
     }
@@ -30,7 +33,7 @@ resource "aws_autoscaling_group" "bastion-asg" {
 
 resource "aws_launch_configuration" "bastion" {
     name_prefix                 = "${var.prefix_projet}-lac-bst"
-    image_id                    =  var.ami
+    image_id                    =  var.ami_bst
     instance_type               = "t2.micro"
     key_name                    = var.keyName
     security_groups             = ["${var.public_sgr}"]

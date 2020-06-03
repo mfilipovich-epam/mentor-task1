@@ -3,18 +3,16 @@ resource "aws_vpc" "mentor-vpc" {
     instance_tenancy     = "default"
     enable_dns_support   = true
     enable_dns_hostnames = false
-    tags = {
-        Owner     = "mfilipovich"
-        Name      = "${var.prefix_projet}-vpc"
-    }
+    tags = merge(var.tags,
+            map("Name", format("${var.prefix_projet}-vpc"))
+    )
 }
 
 resource "aws_internet_gateway" "mentor-igw" {
     vpc_id = aws_vpc.mentor-vpc.id
-    tags = {
-        Owner      = "mfilipovich"
-        Name       = "${var.prefix_projet}-igw"   
-    }
+    tags = merge(var.tags,
+            map("Name", format("${var.prefix_projet}-igw"))
+    )
 }
 
 resource "aws_subnet" "public-subnets" {
@@ -22,10 +20,9 @@ resource "aws_subnet" "public-subnets" {
     vpc_id            = aws_vpc.mentor-vpc.id
     cidr_block        = element(var.cidr_block_public, count.index)
     availability_zone = element(var.azs, count.index)
-    tags = {
-        Owner       = "mfilipovich"
-        Name        = "${var.prefix_projet}-snt-pu${count.index}"
-    }
+    tags = merge(var.tags,
+            map("Name", format("${var.prefix_projet}-snt-pu${count.index}"))
+    )
     map_public_ip_on_launch = true
 }
 
@@ -34,10 +31,9 @@ resource "aws_subnet" "private-subnets" {
     vpc_id            = aws_vpc.mentor-vpc.id
     cidr_block        = element(var.cidr_block_private, count.index)
     availability_zone = element(var.azs, count.index)
-    tags = {
-        Owner       = "mfilipovich"
-        Name        = "${var.prefix_projet}-snt-pr${count.index}"
-    }
+    tags = merge(var.tags,
+            map("Name", format("${var.prefix_projet}-snt-pr${count.index}"))
+    )
 }
 
 resource "aws_route_table" "public-route" {
@@ -46,10 +42,9 @@ resource "aws_route_table" "public-route" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.mentor-igw.id
     }
-    tags = {
-        Owner       = "mfilipovich"
-        Name        = "${var.prefix_projet}-rou-pub"
-    }
+    tags = merge(var.tags,
+            map("Name", format("${var.prefix_projet}-rou-pub"))
+    )
 }
 
 resource "aws_route_table_association" "public-route" {
@@ -112,10 +107,9 @@ resource "aws_security_group" "public-sgr" {
 
     vpc_id = aws_vpc.mentor-vpc.id
 
-    tags = {
-        Owner       = "mfilipovich"
-        Name        = "${var.prefix_projet}-sgr-pub"
-    }
+    tags = merge(var.tags,
+            map("Name", format("${var.prefix_projet}-sgr-pub"))
+    )
 }
 
 
@@ -209,27 +203,25 @@ resource "aws_security_group" "nat-sgr" {
 
     vpc_id = aws_vpc.mentor-vpc.id
 
-    tags = {
-        Owner       = "mfilipovich"
-        Name        = "${var.prefix_projet}-sgr-nat"
-    }
+    tags = merge(var.tags,
+            map("Name", format("${var.prefix_projet}-sgr-nat"))
+    )
 }
 
 
 resource "aws_instance" "mentor-natinst" {
-    ami           = var.natamis[var.region]
+    ami           = var.ami_nat
     availability_zone = var.azs[0]
     instance_type = "t2.micro"
-    key_name = var.keyName[var.region]
+    key_name = var.keyName
     vpc_security_group_ids = ["${aws_security_group.nat-sgr.id}"]
     subnet_id = aws_subnet.public-subnets[0].id
     associate_public_ip_address = true
     source_dest_check = false
 
-    tags = {
-        Owner       = "mfilipovich"
-        Name        = "${var.prefix_projet}-nat"
-    }
+    tags = merge(var.tags,
+            map("Name", format("${var.prefix_projet}-nat"), "Role", "natinst")
+    )
 }
 
 resource "aws_route_table" "private-route" {
@@ -238,10 +230,9 @@ resource "aws_route_table" "private-route" {
     cidr_block  = "0.0.0.0/0"
     instance_id = aws_instance.mentor-natinst.id
     }
-    tags = {
-        Owner       = "mfilipovich"
-        Name        = "${var.prefix_projet}-rou-pri"
-    }
+    tags = merge(var.tags,
+            map("Name", format("${var.prefix_projet}-rou-pri"))
+    )
 }
 
 resource "aws_route_table_association" "private-route" {
@@ -271,8 +262,7 @@ resource "aws_security_group" "private-sgr" {
 
     vpc_id = aws_vpc.mentor-vpc.id
 
-    tags = {
-        Owner       = "mfilipovich"
-        Name        = "${var.prefix_projet}-sgr-pri"
-    }
+    tags = merge(var.tags,
+            map("Name", format("${var.prefix_projet}-sgr-pri"))
+    )
 }
