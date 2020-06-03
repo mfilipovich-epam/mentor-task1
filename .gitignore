@@ -1,6 +1,6 @@
 task1/test/
 *.tfstate*
-task1/terraform/.terraform/
+task1/terraform/stage/.terraform/
 
 # Compiled source #
 ###################

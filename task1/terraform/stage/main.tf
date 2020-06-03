@@ -10,7 +10,7 @@ provider "aws" {
 #}
 
 module "vpc" {
-  source = "./vpc"
+  source = "../modules/vpc"
   region        = var.region
   tags          = var.tags
   prefix_projet = var.prefix_projet
@@ -24,7 +24,7 @@ module "vpc" {
 }
 
 module "bastion" {
-  source = "./bastion"
+  source = "../modules/bastion"
   public_subnet_ids = module.vpc.public_subnet_ids
   public_sgr    = module.vpc.public_sgr
   tags          = var.tags
@@ -36,7 +36,7 @@ module "bastion" {
  
 
 module "ldapser" {
-  source = "./ldapser"
+  source = "../modules/ldapser"
   private_subnet_id = module.vpc.private_subnet_id
   private_sgr   = module.vpc.private_sgr
   tags          = var.tags
