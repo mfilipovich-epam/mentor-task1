@@ -1,11 +1,11 @@
 resource "aws_instance" "ldapser" {
     ami = var.ami_ldap
-    availability_zone = "us-east-1b"
-    instance_type = "t2.micro"
+    availability_zone = var.azs[1]
+    instance_type = var.inst_type
     key_name = var.keyName
     vpc_security_group_ids = ["${var.private_sgr}"]
     subnet_id = var.private_subnet_id
-    private_ip = "10.0.40.100"
+    private_ip = var.ldap_privat_ip
     source_dest_check = false
 
     tags = merge(var.tags,

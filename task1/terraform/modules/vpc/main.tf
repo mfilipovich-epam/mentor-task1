@@ -187,8 +187,8 @@ resource "aws_security_group" "nat-sgr" {
 
 
     egress {
-        from_port = 37000
-        to_port = 64000
+        from_port = 35000
+        to_port = 65000
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }
@@ -212,7 +212,7 @@ resource "aws_security_group" "nat-sgr" {
 resource "aws_instance" "mentor-natinst" {
     ami           = var.ami_nat
     availability_zone = var.azs[0]
-    instance_type = "t2.micro"
+    instance_type = var.inst_type
     key_name = var.keyName
     vpc_security_group_ids = ["${aws_security_group.nat-sgr.id}"]
     subnet_id = aws_subnet.public-subnets[0].id

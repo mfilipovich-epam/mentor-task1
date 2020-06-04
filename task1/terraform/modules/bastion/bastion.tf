@@ -33,8 +33,8 @@ resource "aws_autoscaling_group" "bastion-asg" {
 
 resource "aws_launch_configuration" "bastion" {
     name_prefix                 = "${var.prefix_projet}-lac-bst"
-    image_id                    =  var.ami_bst
-    instance_type               = "t2.micro"
+    image_id                    = var.ami_bst
+    instance_type               = var.inst_type
     key_name                    = var.keyName
     security_groups             = ["${var.public_sgr}"]
     associate_public_ip_address = true

@@ -18,3 +18,6 @@ variable "keyName" {}
 
 variable  "tags" {}
 
+variable "inst_type"{
+    default = "t2.micro"
+}

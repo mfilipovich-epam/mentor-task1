@@ -42,6 +42,8 @@ module "ldapser" {
   tags          = var.tags
   prefix_projet = var.prefix_projet
   keyName       = var.keyName 
-  ami_ldap      = var.ami_ldap 
+  ami_ldap      = var.ami_ldap
+  azs           = var.azs
+  ldap_privat_ip = var.ldap_privat_ip
 }
 

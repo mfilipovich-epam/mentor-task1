@@ -18,3 +18,5 @@ variable "cidr_block_private" {}
 variable "cidr_block_public" {}
 
 variable "access_list" {}
+
+variable "ldap_privat_ip" {}

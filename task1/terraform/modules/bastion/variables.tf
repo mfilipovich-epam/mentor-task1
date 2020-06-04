@@ -9,5 +9,8 @@ variable "keyName" {}
 
 variable "ami_bst" {}
 
-variable  "tags" {}
+variable "tags" {}
 
+variable "inst_type"{
+    default = "t2.micro"
+}

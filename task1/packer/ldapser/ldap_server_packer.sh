@@ -353,7 +353,7 @@ echo "@reboot /etc/openldap/ssh_psw_auth.sh" >> /var/spool/cron/root
 cat > /etc/openldap/ssh_psw_auth.sh << 'EOF'
 #!/bin/bash
 ssh_auth=$(grep 'PasswordAuthentication no' /etc/ssh/sshd_config)
-[[ ! -z $ssh_auth ]] && sed -i ' s;PasswordAuthentication no;PasswordAuthentication yes;' /etc/ssh/sshd_config && systemctl restart sshd
+[[ ! -z $ssh_auth ]] && sed -i ' s@PasswordAuthentication no@PasswordAuthentication yes@' /etc/ssh/sshd_config && systemctl restart sshd
 EOF
 chmod +x /etc/openldap/ssh_psw_auth.sh
 
