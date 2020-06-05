@@ -20,3 +20,7 @@ variable "cidr_block_public" {}
 variable "access_list" {}
 
 variable "ldap_privat_ip" {}
+
+variable "asg_recurrence_scale_up" {}
+
+variable "asg_recurrence_scale_down" {}

@@ -31,7 +31,9 @@ module "bastion" {
   prefix_projet = var.prefix_projet
   keyName       = var.keyName 
   ami_bst       = var.ami_bst 
-  azs           = var.azs 
+  azs           = var.azs
+  asg_recurrence_scale_up   = var.asg_recurrence_scale_up
+  asg_recurrence_scale_down = var.asg_recurrence_scale_down
 }
  
 

@@ -30,3 +30,7 @@ access_list  =  [
     "37.215.164.236/32",
     "178.127.64.94/32"
     ]
+
+asg_recurrence_scale_up = "30 06 * * *" # +3 utc
+
+asg_recurrence_scale_down = "00 19 * * *" # +3 utc
