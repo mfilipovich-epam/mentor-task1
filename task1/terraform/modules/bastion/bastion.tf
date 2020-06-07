@@ -45,7 +45,7 @@ resource "aws_autoscaling_group" "bastion-asg" {
     depends_on             = [aws_launch_configuration.bastion]
 }
 
-resource "aws_autoscaling_schedule" "scale_out_during_business_hours" {
+resource "aws_autoscaling_schedule" "scale-out-during-business-hours" {
 
     scheduled_action_name   = "scale-out-during-business-hours"
     min_size                = var.asg_min_size
@@ -56,7 +56,7 @@ resource "aws_autoscaling_schedule" "scale_out_during_business_hours" {
     depends_on              = [aws_autoscaling_group.bastion-asg]
 }
 
-resource "aws_autoscaling_schedule" "scale_in_at_night" {
+resource "aws_autoscaling_schedule" "scale-in-at-night" {
 
     scheduled_action_name   = "scale-in-at-night"
     min_size                = var.asg_night_size_min
@@ -66,6 +66,19 @@ resource "aws_autoscaling_schedule" "scale_in_at_night" {
     autoscaling_group_name  = aws_autoscaling_group.bastion-asg.name
 #    start_time             = "2020-06-04T19:00:00Z"
 #    end_time               = "2020-12-12T06:00:00Z"
+
+    depends_on              = [aws_autoscaling_group.bastion-asg]
+}
+
+
+resource "aws_autoscaling_attachment" "elb-bst" {
+
+    autoscaling_group_name = aws_autoscaling_group.bastion-asg.name
+    elb                    = var.load_balancers
+
+    lifecycle {
+      create_before_destroy = true
+    }
 
     depends_on              = [aws_autoscaling_group.bastion-asg]
 }

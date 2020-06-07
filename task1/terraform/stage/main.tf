@@ -34,6 +34,7 @@ module "bastion" {
   azs           = var.azs
   asg_recurrence_scale_up   = var.asg_recurrence_scale_up
   asg_recurrence_scale_down = var.asg_recurrence_scale_down
+  load_balancers = module.elb.elb_id
 }
  
 

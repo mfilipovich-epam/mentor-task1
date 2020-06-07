@@ -67,3 +67,6 @@ variable "suspended_processes" {
     type = list
     default     = []
 }
+variable "load_balancers" {
+  default     = []
+}
