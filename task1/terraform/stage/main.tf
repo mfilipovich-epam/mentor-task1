@@ -49,3 +49,30 @@ module "ldapser" {
   ldap_privat_ip = var.ldap_privat_ip
 }
 
+module "elb" {
+  source = "../modules/elb"
+  public_subnet_ids = module.vpc.public_subnet_ids
+  public_sgr    = module.vpc.public_sgr
+  tags          = var.tags
+  prefix_projet = var.prefix_projet
+  azs           = var.azs
+  instance_port     = var.instance_port
+  instance_protocol = var.instance_protocol
+  lb_port           = var.lb_port 
+  lb_protocol       = var.lb_protocol
+  target            = var.target
+  listener = [
+        {
+            instance_port     = 80
+            instance_protocol = "http"
+            lb_port           = 80
+            lb_protocol       = "http"
+        },
+        {
+            instance_port      = 22
+            instance_protocol  = "tcp"
+            lb_port            = 22
+            lb_protocol        = "tcp"
+        }
+    ]
+}

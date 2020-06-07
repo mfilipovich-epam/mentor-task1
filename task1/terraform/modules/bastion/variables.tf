@@ -15,6 +15,18 @@ variable "inst_type"{
     default = "t2.micro"
 }
 
+variable "health_check_grace_period" {
+    default = 60 
+} 
+
+variable "default_cooldown"{
+    default = 60
+}          
+
+variable "health_check_type" {
+    default     = "ELB"
+}
+
 variable "asg_max_size" {
     default     = 1
 }
@@ -51,4 +63,7 @@ variable "asg_recurrence_scale_down" {
     default     = "00 19 * * *" # +3 utc
 }
 
-
+variable "suspended_processes" {
+    type = list
+    default     = []
+}

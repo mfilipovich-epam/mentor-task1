@@ -34,3 +34,9 @@ access_list  =  [
 asg_recurrence_scale_up = "30 06 * * *" # +3 utc
 
 asg_recurrence_scale_down = "00 19 * * *" # +3 utc
+
+  instance_port     = 22
+  instance_protocol = "tcp"
+  lb_port           = 22
+  lb_protocol       = "tcp"
+  target            = "tcp:22"

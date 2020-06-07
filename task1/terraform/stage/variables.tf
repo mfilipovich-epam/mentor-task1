@@ -24,3 +24,9 @@ variable "ldap_privat_ip" {}
 variable "asg_recurrence_scale_up" {}
 
 variable "asg_recurrence_scale_down" {}
+
+variable "instance_port"{}
+variable "instance_protocol"{}
+variable "lb_port"{}
+variable "lb_protocol"{}
+variable "target"{}

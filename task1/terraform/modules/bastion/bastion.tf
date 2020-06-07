@@ -15,11 +15,11 @@ resource "aws_autoscaling_group" "bastion-asg" {
     vpc_zone_identifier       = var.public_subnet_ids
     max_size                  = var.asg_max_size
     min_size                  = var.asg_min_size
-    health_check_grace_period = 60
-    default_cooldown          = 60
-    health_check_type         = "ELB"
+    health_check_grace_period = var.health_check_grace_period
+    default_cooldown          = var.default_cooldown
+    health_check_type         = var.health_check_type
     desired_capacity          = var.desired_capacity
-    suspended_processes       = ["ReplaceUnhealthy"]
+    suspended_processes       = var.suspended_processes
     force_delete              = true
     launch_configuration      = aws_launch_configuration.bastion.name
     tags = [
